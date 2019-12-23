@@ -3,8 +3,65 @@
     <title>HTML + JS boilerplate project</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="index.js" async="async" type="application/javascript"></script>
+    <link href="style.css" rel="stylesheet"/>
+    <link href="font-awesome.min.css" rel="stylesheet">
   </head>
   <body>
-    <div>Hello, world</div>
+    <div class="content">
+      <div class="block header">
+        <span class="title">ToDo List</span>
+        <span class="flex-box search-box">
+          <input class="search-input" type="text" placeholder="Search"/>
+          <button class="search-button"><i class="fa fa-search"></i></button>
+        </span>
+      </div>
+      <div class="block container">
+        <div class="flex-box add-form">
+          <input class="add-input" type="text" placeholder="New Task..."/>
+          <button class="add-button">Add</button>
+        </div>
+
+        <div class="task-list">
+          <div class="flex-box task-list-header">
+            <span class="task-list-title">Open</span>
+            <span class="task-list-sort">
+              <span class="dropdown sort-option-dropdown">
+                <span class="dropdown-item" data-option-id="creation-date-asc" data-option-selected="true">Date creation (Asc) <i class="fa fa-sort-asc"></i></span>
+                <span class="dropdown-item" data-option-id="creation-date-desc">Date creation (Desc) <i class="fa fa-sort-desc"></i></span>
+                <span class="dropdown-item" data-option-id="task-name-asc">Task (Asc) <i class="fa fa-sort-asc"></i></span>
+                <span class="dropdown-item" data-option-id="task-name-desc">Task (Desc) <i class="fa fa-sort-desc"></i></span>
+              </span>
+            </span>
+          </div>
+          <div class="task-list-contents">
+            <div class="flex-box task-item">
+              <div class="task-item-content">
+                <div class="task-item-content-left">
+                  <span class="checkbox-container">
+                     <span class="custom-checkbox"><i class="fa fa-square-o"></i></span>
+                     <span class="custom-checkbox"><i class="fa fa-check-square"></i></span>
+                  </span>
+                </div>
+                <div class="task-item-content-center">
+                  <span class="task-item-name">Task description should be placed here</span>
+                  <input class="task-item-input" type="text" value="Task description should be placed here"/>
+                </div>
+                <div class="task-item-content-right">
+                  <span class="task-item-creation-date">09:00 AM</span>
+                  <span class="task-item-due-date">21:00 AM</span>
+                </div>
+              </div>
+              <div class="task-item-controls">
+                <span class="task-item-control" data-control-action="delete"><i class="fa fa-trash"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="flex-box task-list-footer">
+            <span class="task-list-action" data-control-action="clear">Clear all</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
