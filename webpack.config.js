@@ -8,7 +8,7 @@ config = {
 
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: './src/bundle.js',
+    filename: './bundle.js',
   },
 
   module: {
