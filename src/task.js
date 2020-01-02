@@ -113,11 +113,21 @@ class Task {
   // update name - copy value from input field to task
   updateTaskName() {
     if (this.taskBlock) {
-      let input = this.taskBlock.querySelector(TASK_ITEM_NAME_SELECTOR);
+      let input = this.taskBlock.querySelector(TASK_ITEM_INPUT_SELECTOR);
       if (input.value) {
         this.name = input.value;
       }
     }
+  }
+
+  // return selector for change state control
+  changeStateButtonSelector() {
+    return TASK_CHECKBOX_SELECTOR;
+  }
+
+  // return selector for delete action control
+  deleteButtonSelector() {
+    return TASK_ITEM_DELETE_BUTTON_SELECTOR;
   }
 }
 

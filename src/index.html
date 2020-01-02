@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="bundle.js" async="async" type="module"></script>
-    <link href="../src/style.css" rel="stylesheet"/>
-    <link href="../src/font-awesome.min.css" rel="stylesheet">
+    <!-- font awesome for icons -->
+    <script src="https://use.fontawesome.com/317617af00.js"></script>
   </head>
   <body>
     <div class="content">
@@ -46,8 +46,8 @@
             <span class="task-list-title">Completed</span>
             <span class="task-list-sort">
               <span id="completedTasksSort" class="dropdown sort-option-dropdown">
-                <span class="dropdown-item" data-option-id="creation-date-asc" data-option-selected="true">Date creation (Asc) <i class="fa fa-sort-asc"></i></span>
-                <span class="dropdown-item" data-option-id="creation-date-desc">Date creation (Desc) <i class="fa fa-sort-desc"></i></span>
+                <span class="dropdown-item" data-option-id="due-date-asc" data-option-selected="true">Due date (Asc) <i class="fa fa-sort-asc"></i></span>
+                <span class="dropdown-item" data-option-id="due-date-desc">Due date (Desc) <i class="fa fa-sort-desc"></i></span>
                 <span class="dropdown-item" data-option-id="task-name-asc">Task (Asc) <i class="fa fa-sort-asc"></i></span>
                 <span class="dropdown-item" data-option-id="task-name-desc">Task (Desc) <i class="fa fa-sort-desc"></i></span>
               </span>
@@ -62,7 +62,7 @@
       </div>
     </div>
 
-
+    <!-- template for task item -->
     <div class="template" id="task-item-template">
       <div class="flex-box task-item">
         <div class="task-item-content">

@@ -1,3 +1,6 @@
+const ESC_BUTTON_KEY = 27;
+const ENTER_BUTTON_KEY = 13;
+
 function showBlock(block) {
   block.style.display = '';
 }
@@ -11,4 +14,16 @@ function clearBlock(list) {
     list.removeChild(list.firstChild);
   }
 }
-export { showBlock, hideBlock, clearBlock };
+
+function checkIfClickInsideSelector(target, selector) {
+  return target.matches(selector) || target.closest(selector);
+}
+
+export {
+  showBlock,
+  hideBlock,
+  clearBlock,
+  checkIfClickInsideSelector,
+  ENTER_BUTTON_KEY,
+  ESC_BUTTON_KEY,
+};

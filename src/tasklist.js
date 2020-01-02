@@ -1,5 +1,15 @@
-import { hideBlock, showBlock, clearBlock } from './common';
-import { Task, TASK_ITEM_INPUT_SELECTOR } from './task';
+import {
+  hideBlock,
+  showBlock,
+  clearBlock,
+  checkIfClickInsideSelector,
+  ENTER_BUTTON_KEY,
+  ESC_BUTTON_KEY,
+} from './common';
+import { Task } from './task';
+
+const TASK_ITEM_SELECTOR = '.task-item';
+const TASK_LIST_CONTENTS_SELECTOR = '.task-list-contents';
 
 class Tasklist {
   constructor(id, openTasksListBlock, completedTasksListBlock) {
@@ -20,9 +30,13 @@ class Tasklist {
         return;
       }
       // handle click on checkbox
-      if (this.checkIfClickInsideClass(target, 'custom-checkbox')) {
+      if (
+        checkIfClickInsideSelector(target, task.changeStateButtonSelector())
+      ) {
         this.toggleTaskCompletion(task);
-      } else if (this.checkIfClickInsideClass(target, 'task-item-delete')) {
+      } else if (
+        checkIfClickInsideSelector(target, task.deleteButtonSelector())
+      ) {
         this.deleteTask(task);
       } else if (task) {
         // switch edit mode
@@ -34,10 +48,16 @@ class Tasklist {
 
     // handle inputs on tasks edit fields
     let handleTaskKeyEventsFunc = event => {
-      if (event.keyCode === 13 || event.keyCode === 27) {
+      if (
+        event.keyCode === ENTER_BUTTON_KEY ||
+        event.keyCode === ESC_BUTTON_KEY
+      ) {
         let target = event.target;
         let task = this.findTaskByBlock(target);
-        if (event.keyCode === 27) {
+        if (task == null) {
+          return;
+        }
+        if (event.keyCode === ESC_BUTTON_KEY) {
           // Escape - just hide controls
           task.hideControls();
         } else {
@@ -48,18 +68,22 @@ class Tasklist {
         }
       }
     };
-    openTasksListBlock.addEventListener('keyup', handleTaskClickFunc);
-    completedTasksListBlock.addEventListener('keyup', handleTaskClickFunc);
+    openTasksListBlock.addEventListener('keyup', handleTaskKeyEventsFunc);
+    completedTasksListBlock.addEventListener('keyup', handleTaskKeyEventsFunc);
+
+    openTasksListBlock.addEventListener('selection-changed', e => {
+      this.sortOpen = e.detail.selectedOption;
+      this.generateListContents();
+    });
+    completedTasksListBlock.addEventListener('selection-changed', e => {
+      this.sortCompleted = e.detail.selectedOption;
+      this.generateListContents();
+    });
   }
-  // check if we clicked on element with selected class or its contents
-  checkIfClickInsideClass(target, className) {
-    return (
-      target.classList.contains(className) || target.closest('.' + className)
-    );
-  }
+
   // find task by inner element
   findTaskByBlock(block) {
-    let taskBlock = block.closest('.task-item');
+    let taskBlock = block.closest(TASK_ITEM_SELECTOR);
     if (!taskBlock) {
       return null;
     }
@@ -84,10 +108,10 @@ class Tasklist {
   generateListContents() {
     // clear contents
     let openTasksContainer = this.openTasksListBlock.querySelector(
-      '.task-list-contents',
+      TASK_LIST_CONTENTS_SELECTOR,
     );
     let completedTasksContainer = this.completedTasksListBlock.querySelector(
-      '.task-list-contents',
+      TASK_LIST_CONTENTS_SELECTOR,
     );
     clearBlock(openTasksContainer);
     clearBlock(completedTasksContainer);
@@ -137,19 +161,13 @@ class Tasklist {
   saveTasksData() {
     localStorage.setItem(this.id + '_tasks', JSON.stringify(this.allTasks));
   }
-  // edit task name
-  editTask(task, name) {
-    task.name = name;
-    this.onListContentsChanged();
-  }
   // add new task into list
   addTask(name) {
     let task = new Task(name);
     this.allTasks.push(task);
     this.onListContentsChanged();
   }
-
-  // add new task into list
+  // remove task from list
   deleteTask(task) {
     let idx = this.allTasks.indexOf(task);
     if (idx >= 0) {
@@ -174,7 +192,7 @@ class Tasklist {
     });
     this.onListContentsChanged();
   }
-
+  // redraw list and save task data
   onListContentsChanged() {
     this.generateListContents();
     this.saveTasksData();
