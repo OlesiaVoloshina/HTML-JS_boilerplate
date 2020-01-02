@@ -19,6 +19,7 @@ class Task {
     this.name = name;
     this.creationDate = new Date();
     this.state = 'open';
+    this.editMode = false;
     this.controlsShown = false;
     this.id = 'task_' + Math.random();
   }
@@ -88,10 +89,8 @@ class Task {
     return this.taskBlock;
   }
   // show controls - edit form and delete button on control panel
-  showControls() {
-    this.controlsShown = true;
-    // show delete button
-    showBlock(this.taskBlock.querySelector(TASK_ITEM_CONTROLS_SELECTOR));
+  showEditForm() {
+    this.editMode = true;
     // show input and focus on it
     let input = this.taskBlock.querySelector(TASK_ITEM_INPUT_SELECTOR);
     showBlock(input);
@@ -100,14 +99,24 @@ class Task {
     hideBlock(this.taskBlock.querySelector(TASK_ITEM_NAME_SELECTOR));
   }
   // hide control panel
-  hideControls() {
-    this.controlsShown = false;
-    hideBlock(this.taskBlock.querySelector(TASK_ITEM_CONTROLS_SELECTOR));
+  hideEditForm() {
+    this.editMode = false;
     let input = this.taskBlock.querySelector(TASK_ITEM_INPUT_SELECTOR);
     // restore actual task name
     input.value = this.name;
     hideBlock(input);
     showBlock(this.taskBlock.querySelector(TASK_ITEM_NAME_SELECTOR));
+  }
+  // show controls - delete button on control panel
+  showControls() {
+    this.controlsShown = true;
+    // show delete button
+    showBlock(this.taskBlock.querySelector(TASK_ITEM_CONTROLS_SELECTOR));
+  }
+  // hide control panel
+  hideControls() {
+    this.controlsShown = false;
+    hideBlock(this.taskBlock.querySelector(TASK_ITEM_CONTROLS_SELECTOR));
   }
 
   // update name - copy value from input field to task

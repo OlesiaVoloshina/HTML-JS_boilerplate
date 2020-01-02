@@ -21,7 +21,17 @@ class Tasklist {
     this.sortCompleted = null;
     this.sorters = new Map();
 
-    // handle clicks on task items
+    // handle double-click on task items - toggle edit mode
+    let handleTaskDblClickFunc = event => {
+      let target = event.target;
+      let task = this.findTaskByBlock(target);
+      // switch edit mode
+      if (task) {
+        task.editMode ? task.hideEditForm() : task.showEditForm();
+      }
+    };
+
+    // handle single click on task items
     let handleTaskClickFunc = event => {
       let target = event.target;
       let task = this.findTaskByBlock(target);
@@ -38,13 +48,39 @@ class Tasklist {
         checkIfClickInsideSelector(target, task.deleteButtonSelector())
       ) {
         this.deleteTask(task);
-      } else if (task) {
-        // switch edit mode
-        task.controlsShown ? task.hideControls() : task.showControls();
       }
     };
+    // handle hovers
+    let hoverFunc = event => {
+      let target = event.target;
+      let task = this.findTaskByBlock(target);
+      // switch edit mode
+      if (task) {
+        task.showControls();
+      }
+    };
+    let unhoverFunc = event => {
+      let target = event.target;
+      let task = this.findTaskByBlock(target);
+      // switch edit mode
+      if (task) {
+        task.hideControls();
+      }
+    };
+
     openTasksListBlock.addEventListener('click', handleTaskClickFunc);
     completedTasksListBlock.addEventListener('click', handleTaskClickFunc);
+
+    openTasksListBlock.addEventListener('dblclick', handleTaskDblClickFunc);
+    completedTasksListBlock.addEventListener(
+      'dblclick',
+      handleTaskDblClickFunc,
+    );
+    // handle hovers
+    openTasksListBlock.addEventListener('mouseover', hoverFunc);
+    openTasksListBlock.addEventListener('mouseout', unhoverFunc);
+    completedTasksListBlock.addEventListener('mouseover', hoverFunc);
+    completedTasksListBlock.addEventListener('mouseout', unhoverFunc);
 
     // handle inputs on tasks edit fields
     let handleTaskKeyEventsFunc = event => {
@@ -58,8 +94,8 @@ class Tasklist {
           return;
         }
         if (event.keyCode === ESC_BUTTON_KEY) {
-          // Escape - just hide controls
-          task.hideControls();
+          // Escape - just hide edit form
+          task.hideEditForm();
         } else {
           // if Enter - update task name (from input to name)
           task.updateTaskName();
