@@ -1,5 +1,5 @@
 function showBlock(block) {
-  block.style.display = 'block';
+  block.style.display = '';
 }
 
 function hideBlock(block) {
